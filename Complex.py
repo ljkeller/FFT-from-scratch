@@ -24,6 +24,12 @@ class Complex:
         real, imag = round(radius*cos(theta), 12), round(radius*sin(theta), 12)
         return cls(real, imag)
 
+    # Returns complex representation of purely real number
+    @classmethod
+    def from_real(cls, real):
+        real, imag = real, 0
+        return cls(real, imag)
+
     def theta(self):
         return round(self.theta, 5)
 
