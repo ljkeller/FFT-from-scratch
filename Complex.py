@@ -38,10 +38,26 @@ class Complex:
         imaginary = self.imag + other.imag
         return Complex(real, imaginary)
 
+    def __iadd__(self, other):
+        self.real += other.real
+        self.imag += other.imag
+        return self
+
+    # not great practice.... BUT lets us call sum on our complex class
+    def __radd__(self, other):
+        real = other + self.real
+        imaginary = other + self.imag
+        return Complex(real, imaginary)
+
     def __sub__(self, other):
         real = self.real - other.real
         imaginary = self.imag - other.imag
         return Complex(real, imaginary)
+
+    def __isub__(self, other):
+        self.real -= other.real
+        self.imag -= other.imag
+        return self
 
     def __neg__(self):
         real = -self.real
@@ -76,6 +92,16 @@ class Complex:
     # unary abs()
     def __abs__(self):
         return self.rad
+
+    @staticmethod
+    def conjugate(z):
+        real, imaginary = z.real, -z.imag
+        return Complex(real, imaginary)
+
+    # Performs complex inner product between u & v, order matters
+    @staticmethod
+    def inner_product(U, V):
+        return sum([z*Complex.conjugate(w) for z,w in zip(U, V)])
 
     def __str__(self):
         return f"{self.real} + {self.imag}j"
