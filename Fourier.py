@@ -11,14 +11,11 @@ def root_of_unity(k, n):
 
 def naive_fourier_transform(x):
     N = len(x)
-
     if N % 2 != 0:
         raise ValueError
 
     # make complex vector from real vector
-    x = [Complex.from_real(r) for r in x]
+    x = list(map(Complex.from_real, x))
 
     # naive fourier transform
-    X = [ sum([x[k] * Complex.conjugate(root_of_unity(k*n, N)) for k in range(N)]) for n in range(N)]
-
-    return X
+    return [ sum([x[k] * Complex.conjugate(root_of_unity(k*n, N)) for k in range(N)]) for n in range(N)]
