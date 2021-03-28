@@ -16,14 +16,17 @@ class TestFourierTransforms(unittest.TestCase):
     def test_input_size(self):
         self.assertRaises(ValueError, naive_fourier_transform, [1])
 
-    def test_naive_ft(self):
+    def test_naive_dft(self):
         X = naive_fourier_transform(self.x)
-
-        print(X)
-        print(self.x_freqs)
 
         for impl, truth in zip(X, self.x_freqs):
             self.assertEqual(round(impl, 4), round(truth, 4))
+
+    def test_naive_idft(self):
+        X = naive_fourier_transform(self.x)
+        Y = naive_inv_fourier_transform(X)
+        for observed, truth in zip(Y, self.x):
+            self.assertEqual(round(observed, 4), round(truth, 4))
 
     def tearDown(self):
         x = []

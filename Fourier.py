@@ -19,3 +19,10 @@ def naive_fourier_transform(x):
 
     # naive fourier transform
     return [ sum([x[k] * Complex.conjugate(root_of_unity(k*n, N)) for k in range(N)]) for n in range(N)]
+
+def naive_inv_fourier_transform(x):
+    N = len(x)
+    if N % 2 != 0:
+        raise ValueError
+    
+    return [sum([x[k] * root_of_unity(k*n, N) for k in range(N)]).real/N for n in range(N)]
