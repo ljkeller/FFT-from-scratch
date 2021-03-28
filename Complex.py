@@ -1,6 +1,5 @@
 from math import atan2, sin, cos
-
-pi = 3.141592653589793
+from Constants import pi
 
 # Calulcates theta from real, imag
 # output is in [0, pi/2)
@@ -93,6 +92,9 @@ class Complex:
     def __abs__(self):
         return self.rad
 
+    def __float__(self):
+        return Complex(self.real, self.imag)
+
     @staticmethod
     def conjugate(z):
         real, imaginary = z.real, -z.imag
@@ -104,7 +106,15 @@ class Complex:
         return sum([z*Complex.conjugate(w) for z,w in zip(U, V)])
 
     def __str__(self):
-        return f"{self.real} + {self.imag}j"
+        reduced = self.__round__(4)
+        return f"{reduced.real} + {reduced.imag}j"
+
+    def __repr__(self):
+        reduced = self.__round__(4)
+        return f"{reduced.real} + {reduced.imag}j"
+
+    def __round__(self, n):
+        return Complex(round(self.real, n), round(self.imag, n))
 
     def polar_str(self):
         return f"Radius: {round(self.rad, 4)} , angle: {round(self.theta, 4)}"
