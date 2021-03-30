@@ -23,9 +23,9 @@ class TestFourierTransforms(unittest.TestCase):
             self.assertEqual(round(impl, 4), round(truth, 4))
 
     def test_naive_idft(self):
-        X = naive_fourier_transform(self.x)
-        Y = naive_inv_fourier_transform(X)
-        for observed, truth in zip(Y, self.x):
+        Y = naive_fourier_transform(self.x)
+        X = naive_inv_fourier_transform(Y)
+        for observed, truth in zip(X, self.x):
             self.assertEqual(round(observed, 4), round(truth, 4))
     
     def test_fft(self):
@@ -33,6 +33,12 @@ class TestFourierTransforms(unittest.TestCase):
 
         for impl, truth in zip(X, self.x_freqs):
             self.assertEqual(round(impl, 4), round(truth, 4))
+
+    def test_naive_ifft(self):
+        Y = fast_fourier_transform(self.x)
+        X = fast_inv_fourier_transform(Y)
+        for observed, truth in zip(X, self.x):
+            self.assertEqual(round(observed, 4), round(truth, 4))
 
     def tearDown(self):
         x = []

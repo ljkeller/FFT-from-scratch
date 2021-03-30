@@ -70,8 +70,12 @@ class Complex:
         return Complex.from_polar(radius, theta)
 
     def __truediv__(self, other):
-        theta = self.theta - other.theta
-        radius = self.rad / other.rad
+        if isinstance(other, Complex):
+            theta = self.theta - other.theta
+            radius = self.rad / other.rad
+        else:
+            theta = self.theta
+            radius = self.rad / other
         return Complex.from_polar(radius, theta)
 
     # utilizing De Moivre's theorem for simplified calculations

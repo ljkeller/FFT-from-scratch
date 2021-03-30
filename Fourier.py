@@ -18,9 +18,10 @@ def fast_fourier_transform(x):
     # make complex vector from real vector
     x = list(map(Complex.from_real, x))
     
-    print(x)
     return fft(x)
 
+# Performs FFT
+# 2T(n/2) + O(n)
 def fft(x):
     N = len(x)
     if N == 1:
@@ -44,8 +45,38 @@ def fft(x):
         y[k] = y_evens[k] + rou_k * y_odds[k]
         y[k + N//2] = y_evens[k] - rou_k * y_odds[k]
         rou_k = rou_k*rou_n
-    print(y)
     return y
+
+# Wrapper that transforms input before ifft call
+def fast_inv_fourier_transform(y):
+    N = len(y)
+    if N % 2 != 0:
+        raise ValueError
+    # Unwrap real from complex
+    return [z.real for z in ifft(y)]
+
+# Performs IFFT
+# 2T(n/2) + O(n)
+def ifft(y):
+    N = len(y)
+    if N == 1:
+        return y
+
+    # Even odd split
+    y_evens = y[::2]
+    y_odds = y[1::2]
+
+    # Perform FFT on even and half matrices (T(n/2) portion of recurrence)
+    x_evens = ifft(y_evens)
+    x_odds = ifft(y_odds)
+
+    # generate output list up front
+    x = [None] * N
+    for k in range(0, N//2):
+        rou_k = Complex.from_polar(1, 2.0*pi*k/N)
+        x[k] = (x_evens[k] + rou_k * x_odds[k]) / 2
+        x[k + N//2] = (x_evens[k] - rou_k * x_odds[k]) / 2
+    return x
 
 def naive_fourier_transform(x):
     N = len(x)
